@@ -1,12 +1,11 @@
-%%
-clc;       % ²M°£command window
-clear      % ²M°£workspace
-close all  % Ãö³¬©Ò¦³figure
+clc;       % æ¸…é™¤command window
+clear      % æ¸…é™¤workspace
+close all  % é—œé–‰æ‰€æœ‰figure
 
-%% Åª¨ú.txt¸ê®Æ
+%% è®€å–.txtè³‡æ–™
 dataSet = load('iris.txt');
-rawData = dataSet(:,1:4);    % ­ì©l¸ê®Æ¡A75µ§¸ê®Æ x 4­Ó¯S¼x
-label   = dataSet(:,5);      % 75µ§¸ê®Æ©Ò¹ïÀ³ªº¼ĞÅÒ
+rawData = dataSet(:,1:4);    % åŸå§‹è³‡æ–™ï¼Œ75ç­†è³‡æ–™ x 4å€‹ç‰¹å¾µ
+label   = dataSet(:,5);      % 75ç­†è³‡æ–™æ‰€å°æ‡‰çš„æ¨™ç±¤
 kk = 3; %knn k=3
 
 trnset =[rawData(1:25,:);...
@@ -66,11 +65,11 @@ end
 %% Fisher's score
 Fi = Sb/Sw;
 Fi = [Fi(1,1),Fi(2,2),Fi(3,3),Fi(4,4);];
-[Firank,index] = sort(Fi,'descend');%%¯S¼x±Æ¦W 3 4 2 1
+[Firank,index] = sort(Fi,'descend');%%ç‰¹å¾µæ’å 3 4 2 1
 
-%% ­pºâk-NN two-fold cross validation
+%% è¨ˆç®—k-NN two-fold cross validation
 
-mi = [3];%%¯S¼x¿ï¨ú
+mi = [3];%%ç‰¹å¾µé¸å–
 
 k = size(mi,2);
 error = 0;
@@ -79,37 +78,37 @@ for fold = 1:2
         trainset = [rawData(  1: 25,mi);...
                     rawData( 51: 75,mi);...
                     rawData(101:125,mi);]; 
-                  % ¿ï¨ú¨CÃş§O«e¥b¡A¦X¨Ö¬°training set
+                  % é¸å–æ¯é¡åˆ¥å‰åŠï¼Œåˆä½µç‚ºtraining set
 
         testset = [rawData( 26: 50,mi);...
                    rawData( 76:100,mi);...
                    rawData(126:150,mi)]; 
-                  % ¿ï¨ú¨CÃş§O«á¥b¡A¦X¨Ö¬°test set
+                  % é¸å–æ¯é¡åˆ¥å¾ŒåŠï¼Œåˆä½µç‚ºtest set
     end
     
     if fold == 2
         trainset = [rawData( 26: 50,mi);...
                     rawData( 76:100,mi);...
                     rawData(126:150,mi)]; 
-                  % ¿ï¨ú¨CÃş§O«á¥b¡A¦X¨Ö¬°test set
+                  % é¸å–æ¯é¡åˆ¥å¾ŒåŠï¼Œåˆä½µç‚ºtest set
           
         testset= [rawData(  1: 25,mi);...
                   rawData( 51: 75,mi);...
                   rawData(101:125,mi);]; 
-                  % ¿ï¨ú¨CÃş§O«e¥b¡A¦X¨Ö¬°training set
+                  % é¸å–æ¯é¡åˆ¥å‰åŠï¼Œåˆä½µç‚ºtraining set
     end
     
 [testm,~]=size(testset);
 [trainm,trainn]=size(trainset);
 
-distancev=zeros(trainm,1);%¨C­Ó´ú¸ÕÂI»P°V½m¤Îªº¼Ú¦¡¶ZÂ÷¶q
+distancev=zeros(trainm,1);%æ¯å€‹æ¸¬è©¦é»èˆ‡è¨“ç·´åŠçš„æ­å¼è·é›¢é‡
 for i=1:testm   
     for j=1:trainm
         distancev(j)=0;
         for k=1:k
             distancev(j)=distancev(j)+(testset(i,k)-trainset(j,k))^2; 
         end
-        distancev(j)=sqrt(distancev(j));%.¼Ú¦¡¶ZÂ÷
+        distancev(j)=sqrt(distancev(j));%.æ­å¼è·é›¢
     end
     [val,index] = sort(distancev,'ascend');
      
@@ -124,19 +123,19 @@ end
 
 if fold==1
 CR1=1-error/testm;
-fprintf('¤ÀÃş²vCR1 = %2.4f%%\n', CR1*100)
+fprintf('åˆ†é¡ç‡CR1 = %2.4f%%\n', CR1*100)
 error = 0;
 end
 
 if fold==2
 CR2=1-error/testm;
-fprintf('¤ÀÃş²vCR2 = %2.4f%%\n', CR2*100)
+fprintf('åˆ†é¡ç‡CR2 = %2.4f%%\n', CR2*100)
 end
 
 end
 
 CR = (CR1+CR2)/2;
-fprintf('¥­§¡¤ÀÃş²vCR = %2.4f%%\n', CR*100)
+fprintf('å¹³å‡åˆ†é¡ç‡CR = %2.4f%%\n', CR*100)
 
 
 
